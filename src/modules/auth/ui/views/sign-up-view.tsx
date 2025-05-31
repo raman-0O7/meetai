@@ -17,9 +17,10 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { OctagonAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import {FaGithub, FaGoogle} from "react-icons/fa";
 
 const formSchema = z
 	.object({
@@ -58,6 +59,27 @@ export const SignUpView = () => {
 				name: data.name,
 				email: data.email,
 				password: data.password,
+        callbackURL: "/"
+			},
+			{
+				onSuccess: () => {
+					setPending(false);
+				},
+				onError: ({ error }) => {
+					setError(error.message);
+					setPending(false);
+				},
+			}
+		);
+	};
+
+	const onSocial = (provider: "google" | "github") => {
+		setError(null);
+		setPending(true);
+		authClient.signIn.social(
+			{
+				provider: provider,
+				callbackURL: "/",
 			},
 			{
 				onSuccess: () => {
@@ -181,16 +203,18 @@ export const SignUpView = () => {
 										variant={"outline"}
 										className="w-full"
 										disabled={pending}
+                    onClick={() => onSocial("google")}
 									>
-										Google
+										<FaGoogle />
 									</Button>
 									<Button
 										type="button"
 										variant={"outline"}
 										className="w-full"
 										disabled={pending}
+                    onClick={() => onSocial("github")}
 									>
-										Github
+										<FaGithub />
 									</Button>
 								</div>
 							</div>

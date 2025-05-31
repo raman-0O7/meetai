@@ -20,6 +20,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import {FaGithub, FaGoogle} from "react-icons/fa";
+
 
 const formSchema = z.object({
 	email: z.string().email(),
@@ -46,11 +48,32 @@ export const SignInView = () => {
 			{
 				email: data.email,
 				password: data.password,
+				callbackURL: "/",
 			},
 			{
 				onSuccess: () => {
 					setPending(false);
-					router.replace("/");
+          router.replace("/ ")
+				},
+				onError: ({ error }) => {
+					setError(error.message);
+					setPending(false);
+				},
+			}
+		);
+	};
+
+	const onSocial = (provider: "google" | "github") => {
+		setError(null);
+		setPending(true);
+		authClient.signIn.social(
+			{
+				provider: provider,
+        callbackURL: "/"
+			},
+			{
+				onSuccess: () => {
+					setPending(false);
 				},
 				onError: ({ error }) => {
 					setError(error.message);
@@ -131,16 +154,18 @@ export const SignInView = () => {
 										variant={"outline"}
 										className="w-full"
 										disabled={pending}
+                    onClick={() => onSocial("google")}
 									>
-										Google
+										<FaGoogle />
 									</Button>
 									<Button
 										type="button"
 										variant={"outline"}
 										className="w-full"
 										disabled={pending}
+                    onClick={() => onSocial("github")}
 									>
-										Github
+										<FaGithub />
 									</Button>
 								</div>
 							</div>
