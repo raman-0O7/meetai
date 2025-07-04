@@ -20,8 +20,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import {FaGithub, FaGoogle} from "react-icons/fa";
-
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 const formSchema = z.object({
 	email: z.string().email(),
@@ -53,7 +52,7 @@ export const SignInView = () => {
 			{
 				onSuccess: () => {
 					setPending(false);
-          router.replace("/ ")
+					router.replace("/ ");
 				},
 				onError: ({ error }) => {
 					setError(error.message);
@@ -69,7 +68,7 @@ export const SignInView = () => {
 		authClient.signIn.social(
 			{
 				provider: provider,
-        callbackURL: "/"
+				callbackURL: "/",
 			},
 			{
 				onSuccess: () => {
@@ -154,7 +153,7 @@ export const SignInView = () => {
 										variant={"outline"}
 										className="w-full"
 										disabled={pending}
-                    onClick={() => onSocial("google")}
+										onClick={() => onSocial("google")}
 									>
 										<FaGoogle />
 									</Button>
@@ -163,7 +162,7 @@ export const SignInView = () => {
 										variant={"outline"}
 										className="w-full"
 										disabled={pending}
-                    onClick={() => onSocial("github")}
+										onClick={() => onSocial("github")}
 									>
 										<FaGithub />
 									</Button>
@@ -180,7 +179,7 @@ export const SignInView = () => {
 							</div>
 						</form>
 					</Form>
-					<div className="bg-radial from-green-700 to-green-900 hidden relative gap-y-4 md:flex flex-col items-center justify-center">
+					<div className="bg-radial from-sidebar-accent to-sidebar hidden relative gap-y-4 md:flex flex-col items-center justify-center">
 						<img src={"logo.svg"} className="w-[92px] h-[92px]" alt="Logo" />
 						<p className="text-2xl font-semibold text-white">Meet.AI</p>
 					</div>
