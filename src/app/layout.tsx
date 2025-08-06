@@ -1,7 +1,8 @@
-import type {Metadata} from "next";
-import {Inter} from "next/font/google";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import {TRPCReactProvider} from "@/trpc/client";
+import { TRPCReactProvider } from "@/trpc/client";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -13,18 +14,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
         <TRPCReactProvider>
             <html lang="en" className="hydrated">
-            <body
-                className={`${inter.className} antialiased`}
-            >
-            {children}
-            </body>
+                <body
+                    className={`${inter.className} antialiased`}
+                >
+                    <Toaster />
+                    {children}
+                </body>
             </html>
         </TRPCReactProvider>
     );
